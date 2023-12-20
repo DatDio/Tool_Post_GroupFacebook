@@ -45,10 +45,10 @@
             this.btnAddFolderManageAcc.ForeColor = System.Drawing.Color.Black;
             this.btnAddFolderManageAcc.Image = ((System.Drawing.Image)(resources.GetObject("btnAddFolderManageAcc.Image")));
             this.btnAddFolderManageAcc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddFolderManageAcc.Location = new System.Drawing.Point(36, 140);
+            this.btnAddFolderManageAcc.Location = new System.Drawing.Point(26, 58);
             this.btnAddFolderManageAcc.Name = "btnAddFolderManageAcc";
             this.btnAddFolderManageAcc.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnAddFolderManageAcc.Size = new System.Drawing.Size(120, 49);
+            this.btnAddFolderManageAcc.Size = new System.Drawing.Size(151, 48);
             this.btnAddFolderManageAcc.TabIndex = 5;
             this.btnAddFolderManageAcc.Text = "Thêm";
             this.btnAddFolderManageAcc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -66,10 +66,10 @@
             this.btnCancelFolderManageAcc.ForeColor = System.Drawing.Color.Black;
             this.btnCancelFolderManageAcc.Image = ((System.Drawing.Image)(resources.GetObject("btnCancelFolderManageAcc.Image")));
             this.btnCancelFolderManageAcc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelFolderManageAcc.Location = new System.Drawing.Point(231, 140);
+            this.btnCancelFolderManageAcc.Location = new System.Drawing.Point(211, 58);
             this.btnCancelFolderManageAcc.Name = "btnCancelFolderManageAcc";
             this.btnCancelFolderManageAcc.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnCancelFolderManageAcc.Size = new System.Drawing.Size(98, 49);
+            this.btnCancelFolderManageAcc.Size = new System.Drawing.Size(151, 48);
             this.btnCancelFolderManageAcc.TabIndex = 6;
             this.btnCancelFolderManageAcc.Text = "Hủy";
             this.btnCancelFolderManageAcc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -81,7 +81,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(33, 61);
+            this.label3.Location = new System.Drawing.Point(23, 25);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 16);
             this.label3.TabIndex = 11;
@@ -89,9 +89,9 @@
             // 
             // txtFolderManageAcc
             // 
-            this.txtFolderManageAcc.Location = new System.Drawing.Point(161, 61);
+            this.txtFolderManageAcc.Location = new System.Drawing.Point(129, 21);
             this.txtFolderManageAcc.Name = "txtFolderManageAcc";
-            this.txtFolderManageAcc.Size = new System.Drawing.Size(168, 20);
+            this.txtFolderManageAcc.Size = new System.Drawing.Size(233, 20);
             this.txtFolderManageAcc.TabIndex = 12;
             // 
             // FolderManageAccForm
@@ -99,14 +99,16 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.ClientSize = new System.Drawing.Size(417, 255);
+            this.ClientSize = new System.Drawing.Size(390, 130);
             this.Controls.Add(this.txtFolderManageAcc);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCancelFolderManageAcc);
             this.Controls.Add(this.btnAddFolderManageAcc);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FolderManageAccForm";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "FolderManageAccForm";
+            this.Text = "Thêm Thư Mục Mới";
             this.Load += new System.EventHandler(this.FolderManageAccForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

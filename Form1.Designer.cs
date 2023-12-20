@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -54,17 +54,6 @@
             this.ckbSolveCheckPoint = new System.Windows.Forms.CheckBox();
             this.ckbCheckLiveUID = new System.Windows.Forms.CheckBox();
             this.dataGirdViewAcc = new System.Windows.Forms.DataGridView();
-            this.C_Check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.C_UID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.C_Password = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.C_Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.C_PassEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.C_2FA = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.C_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.C_Folder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.C_Cookie = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.C_Token = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.C_Proxy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.thêmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uIDPassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,6 +86,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
             this.rtbListKeyWord = new System.Windows.Forms.RichTextBox();
             this.ckbScanPage = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -165,7 +155,17 @@
             this.lblCountProxy = new System.Windows.Forms.Label();
             this.btnOpenProxy = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label8 = new System.Windows.Forms.Label();
+            this.C_Check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.C_UID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.C_Password = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.C_Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.C_PassEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.C_2FA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.C_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.C_Folder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.C_Cookie = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.C_Token = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.C_Proxy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -249,7 +249,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1251, 112);
+            this.panel1.Size = new System.Drawing.Size(1251, 97);
             this.panel1.TabIndex = 2;
             // 
             // ckbGetCookie
@@ -257,7 +257,7 @@
             this.ckbGetCookie.AutoEllipsis = true;
             this.ckbGetCookie.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbGetCookie.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ckbGetCookie.Location = new System.Drawing.Point(1048, 66);
+            this.ckbGetCookie.Location = new System.Drawing.Point(975, 56);
             this.ckbGetCookie.Name = "ckbGetCookie";
             this.ckbGetCookie.Size = new System.Drawing.Size(151, 20);
             this.ckbGetCookie.TabIndex = 19;
@@ -267,7 +267,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(11, 22);
+            this.label4.Location = new System.Drawing.Point(7, 8);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(108, 16);
             this.label4.TabIndex = 18;
@@ -277,9 +277,9 @@
             // 
             this.btnDeleteFolderAcc.BackColor = System.Drawing.Color.LightSkyBlue;
             this.btnDeleteFolderAcc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeleteFolderAcc.Location = new System.Drawing.Point(212, 66);
+            this.btnDeleteFolderAcc.Location = new System.Drawing.Point(153, 60);
             this.btnDeleteFolderAcc.Name = "btnDeleteFolderAcc";
-            this.btnDeleteFolderAcc.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteFolderAcc.Size = new System.Drawing.Size(89, 25);
             this.btnDeleteFolderAcc.TabIndex = 17;
             this.btnDeleteFolderAcc.Text = "Xóa";
             this.btnDeleteFolderAcc.UseVisualStyleBackColor = false;
@@ -289,9 +289,9 @@
             // 
             this.btnAddFolderAcc.BackColor = System.Drawing.Color.LightSkyBlue;
             this.btnAddFolderAcc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddFolderAcc.Location = new System.Drawing.Point(121, 66);
+            this.btnAddFolderAcc.Location = new System.Drawing.Point(10, 60);
             this.btnAddFolderAcc.Name = "btnAddFolderAcc";
-            this.btnAddFolderAcc.Size = new System.Drawing.Size(75, 23);
+            this.btnAddFolderAcc.Size = new System.Drawing.Size(89, 25);
             this.btnAddFolderAcc.TabIndex = 16;
             this.btnAddFolderAcc.Text = "Thêm";
             this.btnAddFolderAcc.UseVisualStyleBackColor = false;
@@ -305,7 +305,7 @@
             this.panel4.Controls.Add(this.label5);
             this.panel4.Controls.Add(this.lblThreadRunningAcc);
             this.panel4.Controls.Add(this.label7);
-            this.panel4.Location = new System.Drawing.Point(302, 28);
+            this.panel4.Location = new System.Drawing.Point(292, 22);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(219, 49);
             this.panel4.TabIndex = 15;
@@ -354,7 +354,7 @@
             this.btnCloseAllChrome.ForeColor = System.Drawing.Color.Black;
             this.btnCloseAllChrome.Image = ((System.Drawing.Image)(resources.GetObject("btnCloseAllChrome.Image")));
             this.btnCloseAllChrome.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCloseAllChrome.Location = new System.Drawing.Point(778, 28);
+            this.btnCloseAllChrome.Location = new System.Drawing.Point(726, 22);
             this.btnCloseAllChrome.Name = "btnCloseAllChrome";
             this.btnCloseAllChrome.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnCloseAllChrome.Size = new System.Drawing.Size(217, 49);
@@ -374,7 +374,7 @@
             this.btnStopAcc.ForeColor = System.Drawing.Color.Black;
             this.btnStopAcc.Image = ((System.Drawing.Image)(resources.GetObject("btnStopAcc.Image")));
             this.btnStopAcc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStopAcc.Location = new System.Drawing.Point(662, 28);
+            this.btnStopAcc.Location = new System.Drawing.Point(624, 22);
             this.btnStopAcc.Name = "btnStopAcc";
             this.btnStopAcc.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnStopAcc.Size = new System.Drawing.Size(96, 49);
@@ -394,7 +394,7 @@
             this.btnStartAcc.ForeColor = System.Drawing.Color.Black;
             this.btnStartAcc.Image = ((System.Drawing.Image)(resources.GetObject("btnStartAcc.Image")));
             this.btnStartAcc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStartAcc.Location = new System.Drawing.Point(530, 28);
+            this.btnStartAcc.Location = new System.Drawing.Point(520, 22);
             this.btnStartAcc.Name = "btnStartAcc";
             this.btnStartAcc.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnStartAcc.Size = new System.Drawing.Size(98, 49);
@@ -412,9 +412,9 @@
             this.cbbFolderManageAcc.ItemHeight = 16;
             this.cbbFolderManageAcc.Items.AddRange(new object[] {
             "All Acc"});
-            this.cbbFolderManageAcc.Location = new System.Drawing.Point(121, 19);
+            this.cbbFolderManageAcc.Location = new System.Drawing.Point(10, 30);
             this.cbbFolderManageAcc.Name = "cbbFolderManageAcc";
-            this.cbbFolderManageAcc.Size = new System.Drawing.Size(166, 24);
+            this.cbbFolderManageAcc.Size = new System.Drawing.Size(232, 24);
             this.cbbFolderManageAcc.TabIndex = 11;
             this.cbbFolderManageAcc.SelectedValueChanged += new System.EventHandler(this.cbbFolderManageAcc_SelectedValueChanged);
             // 
@@ -423,7 +423,7 @@
             this.ckbSolveCheckPoint.AutoEllipsis = true;
             this.ckbSolveCheckPoint.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbSolveCheckPoint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ckbSolveCheckPoint.Location = new System.Drawing.Point(1048, 46);
+            this.ckbSolveCheckPoint.Location = new System.Drawing.Point(975, 32);
             this.ckbSolveCheckPoint.Name = "ckbSolveCheckPoint";
             this.ckbSolveCheckPoint.Size = new System.Drawing.Size(132, 20);
             this.ckbSolveCheckPoint.TabIndex = 1;
@@ -436,7 +436,7 @@
             this.ckbCheckLiveUID.AutoEllipsis = true;
             this.ckbCheckLiveUID.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbCheckLiveUID.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ckbCheckLiveUID.Location = new System.Drawing.Point(1048, 18);
+            this.ckbCheckLiveUID.Location = new System.Drawing.Point(975, 8);
             this.ckbCheckLiveUID.Name = "ckbCheckLiveUID";
             this.ckbCheckLiveUID.Size = new System.Drawing.Size(132, 20);
             this.ckbCheckLiveUID.TabIndex = 0;
@@ -450,6 +450,7 @@
             this.dataGirdViewAcc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGirdViewAcc.BackgroundColor = System.Drawing.Color.LightSteelBlue;
             this.dataGirdViewAcc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGirdViewAcc.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.C_Check,
@@ -464,91 +465,21 @@
             this.C_Token,
             this.C_Proxy});
             this.dataGirdViewAcc.ContextMenuStrip = this.contextMenuStrip1;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGirdViewAcc.DefaultCellStyle = dataGridViewCellStyle7;
-            this.dataGirdViewAcc.Location = new System.Drawing.Point(0, 113);
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGirdViewAcc.DefaultCellStyle = dataGridViewCellStyle10;
+            this.dataGirdViewAcc.Location = new System.Drawing.Point(0, 103);
             this.dataGirdViewAcc.Name = "dataGirdViewAcc";
-            this.dataGirdViewAcc.Size = new System.Drawing.Size(1251, 482);
+            this.dataGirdViewAcc.Size = new System.Drawing.Size(1251, 492);
             this.dataGirdViewAcc.TabIndex = 1;
             this.dataGirdViewAcc.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGirdViewAcc_CellFormatting);
             this.dataGirdViewAcc.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGirdViewAcc_CellValueChanged);
             this.dataGirdViewAcc.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGirdViewAcc_RowPostPaint);
-            // 
-            // C_Check
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.C_Check.DefaultCellStyle = dataGridViewCellStyle4;
-            this.C_Check.HeaderText = "X";
-            this.C_Check.Name = "C_Check";
-            this.C_Check.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.C_Check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.C_Check.Width = 30;
-            // 
-            // C_UID
-            // 
-            this.C_UID.HeaderText = "C_UID";
-            this.C_UID.Name = "C_UID";
-            // 
-            // C_Password
-            // 
-            this.C_Password.DataPropertyName = "C_Password";
-            this.C_Password.HeaderText = "Pass";
-            this.C_Password.Name = "C_Password";
-            // 
-            // C_Email
-            // 
-            this.C_Email.DataPropertyName = "C_Email";
-            this.C_Email.HeaderText = "Mail";
-            this.C_Email.Name = "C_Email";
-            // 
-            // C_PassEmail
-            // 
-            this.C_PassEmail.DataPropertyName = "C_PassEmail";
-            this.C_PassEmail.HeaderText = "PassMail";
-            this.C_PassEmail.Name = "C_PassEmail";
-            // 
-            // C_2FA
-            // 
-            this.C_2FA.DataPropertyName = "C_2FA";
-            this.C_2FA.HeaderText = "2FA";
-            this.C_2FA.Name = "C_2FA";
-            // 
-            // C_Status
-            // 
-            this.C_Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.C_Status.DataPropertyName = "C_Status";
-            this.C_Status.HeaderText = "Status";
-            this.C_Status.Name = "C_Status";
-            // 
-            // C_Folder
-            // 
-            this.C_Folder.DataPropertyName = "C_Folder";
-            this.C_Folder.HeaderText = "Folder";
-            this.C_Folder.Name = "C_Folder";
-            // 
-            // C_Cookie
-            // 
-            this.C_Cookie.DataPropertyName = "C_Cookie";
-            this.C_Cookie.HeaderText = "Cookie";
-            this.C_Cookie.Name = "C_Cookie";
-            // 
-            // C_Token
-            // 
-            this.C_Token.DataPropertyName = "C_Token";
-            this.C_Token.HeaderText = "Token";
-            this.C_Token.Name = "C_Token";
-            // 
-            // C_Proxy
-            // 
-            this.C_Proxy.DataPropertyName = "C_Proxy";
-            this.C_Proxy.HeaderText = "Proxy";
-            this.C_Proxy.Name = "C_Proxy";
             // 
             // contextMenuStrip1
             // 
@@ -827,14 +758,23 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1245, 110);
+            this.panel2.Size = new System.Drawing.Size(1245, 101);
             this.panel2.TabIndex = 4;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(833, 6);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(98, 16);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "List Keyword:";
             // 
             // rtbListKeyWord
             // 
-            this.rtbListKeyWord.Location = new System.Drawing.Point(836, 27);
+            this.rtbListKeyWord.Location = new System.Drawing.Point(836, 25);
             this.rtbListKeyWord.Name = "rtbListKeyWord";
-            this.rtbListKeyWord.Size = new System.Drawing.Size(390, 72);
+            this.rtbListKeyWord.Size = new System.Drawing.Size(324, 60);
             this.rtbListKeyWord.TabIndex = 12;
             this.rtbListKeyWord.Text = "";
             // 
@@ -843,9 +783,9 @@
             this.ckbScanPage.AutoEllipsis = true;
             this.ckbScanPage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbScanPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ckbScanPage.Location = new System.Drawing.Point(836, 4);
+            this.ckbScanPage.Location = new System.Drawing.Point(1055, 4);
             this.ckbScanPage.Name = "ckbScanPage";
-            this.ckbScanPage.Size = new System.Drawing.Size(234, 20);
+            this.ckbScanPage.Size = new System.Drawing.Size(105, 20);
             this.ckbScanPage.TabIndex = 11;
             this.ckbScanPage.Text = "Đào Page";
             this.ckbScanPage.UseVisualStyleBackColor = true;
@@ -853,7 +793,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 10);
+            this.label3.Location = new System.Drawing.Point(10, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(108, 16);
             this.label3.TabIndex = 10;
@@ -863,9 +803,9 @@
             // 
             this.btnDeleteFolderGroup.BackColor = System.Drawing.Color.LightSkyBlue;
             this.btnDeleteFolderGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeleteFolderGroup.Location = new System.Drawing.Point(104, 69);
+            this.btnDeleteFolderGroup.Location = new System.Drawing.Point(153, 60);
             this.btnDeleteFolderGroup.Name = "btnDeleteFolderGroup";
-            this.btnDeleteFolderGroup.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteFolderGroup.Size = new System.Drawing.Size(89, 25);
             this.btnDeleteFolderGroup.TabIndex = 9;
             this.btnDeleteFolderGroup.Text = "Xóa";
             this.btnDeleteFolderGroup.UseVisualStyleBackColor = false;
@@ -875,9 +815,9 @@
             // 
             this.btnAddFolderGroup.BackColor = System.Drawing.Color.LightSkyBlue;
             this.btnAddFolderGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddFolderGroup.Location = new System.Drawing.Point(13, 69);
+            this.btnAddFolderGroup.Location = new System.Drawing.Point(10, 60);
             this.btnAddFolderGroup.Name = "btnAddFolderGroup";
-            this.btnAddFolderGroup.Size = new System.Drawing.Size(75, 23);
+            this.btnAddFolderGroup.Size = new System.Drawing.Size(89, 25);
             this.btnAddFolderGroup.TabIndex = 8;
             this.btnAddFolderGroup.Text = "Thêm";
             this.btnAddFolderGroup.UseVisualStyleBackColor = false;
@@ -891,7 +831,7 @@
             this.panel3.Controls.Add(this.label2);
             this.panel3.Controls.Add(this.lblthreadRunningGroup);
             this.panel3.Controls.Add(this.label1);
-            this.panel3.Location = new System.Drawing.Point(199, 29);
+            this.panel3.Location = new System.Drawing.Point(309, 27);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(219, 49);
             this.panel3.TabIndex = 7;
@@ -940,7 +880,7 @@
             this.btnStopGroup.ForeColor = System.Drawing.Color.Black;
             this.btnStopGroup.Image = ((System.Drawing.Image)(resources.GetObject("btnStopGroup.Image")));
             this.btnStopGroup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStopGroup.Location = new System.Drawing.Point(566, 27);
+            this.btnStopGroup.Location = new System.Drawing.Point(652, 27);
             this.btnStopGroup.Name = "btnStopGroup";
             this.btnStopGroup.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnStopGroup.Size = new System.Drawing.Size(96, 49);
@@ -960,7 +900,7 @@
             this.btnStartGroup.ForeColor = System.Drawing.Color.Black;
             this.btnStartGroup.Image = ((System.Drawing.Image)(resources.GetObject("btnStartGroup.Image")));
             this.btnStartGroup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStartGroup.Location = new System.Drawing.Point(434, 27);
+            this.btnStartGroup.Location = new System.Drawing.Point(548, 27);
             this.btnStartGroup.Name = "btnStartGroup";
             this.btnStartGroup.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnStartGroup.Size = new System.Drawing.Size(98, 49);
@@ -978,9 +918,9 @@
             this.cbbFolderManageGroup.ItemHeight = 16;
             this.cbbFolderManageGroup.Items.AddRange(new object[] {
             "All Group"});
-            this.cbbFolderManageGroup.Location = new System.Drawing.Point(13, 29);
+            this.cbbFolderManageGroup.Location = new System.Drawing.Point(10, 30);
             this.cbbFolderManageGroup.Name = "cbbFolderManageGroup";
-            this.cbbFolderManageGroup.Size = new System.Drawing.Size(166, 24);
+            this.cbbFolderManageGroup.Size = new System.Drawing.Size(232, 24);
             this.cbbFolderManageGroup.TabIndex = 3;
             this.cbbFolderManageGroup.SelectedValueChanged += new System.EventHandler(this.cbbFolderManageGroup_SelectedValueChanged);
             // 
@@ -1084,6 +1024,7 @@
             this.dataGridViewGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewGroup.BackgroundColor = System.Drawing.Color.LightSteelBlue;
             this.dataGridViewGroup.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewGroup.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.C_CheckGroup,
@@ -1100,17 +1041,17 @@
             this.C_MemberGroup,
             this.C_FolderGroup});
             this.dataGridViewGroup.ContextMenuStrip = this.contextMenuStrip2;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewGroup.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dataGridViewGroup.Location = new System.Drawing.Point(0, 112);
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewGroup.DefaultCellStyle = dataGridViewCellStyle11;
+            this.dataGridViewGroup.Location = new System.Drawing.Point(0, 110);
             this.dataGridViewGroup.Name = "dataGridViewGroup";
-            this.dataGridViewGroup.Size = new System.Drawing.Size(1251, 480);
+            this.dataGridViewGroup.Size = new System.Drawing.Size(1251, 482);
             this.dataGridViewGroup.TabIndex = 2;
             this.dataGridViewGroup.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewGroup_CellFormatting);
             this.dataGridViewGroup.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewGroup_CellValueChanged);
@@ -1119,8 +1060,8 @@
             // C_CheckGroup
             // 
             this.C_CheckGroup.DataPropertyName = "C_CheckGroup";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.C_CheckGroup.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.C_CheckGroup.DefaultCellStyle = dataGridViewCellStyle8;
             this.C_CheckGroup.HeaderText = "X";
             this.C_CheckGroup.Name = "C_CheckGroup";
             this.C_CheckGroup.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -1356,7 +1297,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(329, 40);
+            this.label6.Location = new System.Drawing.Point(28, 221);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(123, 16);
             this.label6.TabIndex = 5;
@@ -1364,9 +1305,9 @@
             // 
             // txtGroupPerAcc
             // 
-            this.txtGroupPerAcc.Location = new System.Drawing.Point(458, 36);
+            this.txtGroupPerAcc.Location = new System.Drawing.Point(157, 217);
             this.txtGroupPerAcc.Name = "txtGroupPerAcc";
-            this.txtGroupPerAcc.Size = new System.Drawing.Size(54, 22);
+            this.txtGroupPerAcc.Size = new System.Drawing.Size(75, 22);
             this.txtGroupPerAcc.TabIndex = 4;
             // 
             // ckbEditTextToLink
@@ -1386,7 +1327,7 @@
             this.ckbPostLink.AutoEllipsis = true;
             this.ckbPostLink.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ckbPostLink.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ckbPostLink.Location = new System.Drawing.Point(31, 97);
+            this.ckbPostLink.Location = new System.Drawing.Point(31, 94);
             this.ckbPostLink.Name = "ckbPostLink";
             this.ckbPostLink.Size = new System.Drawing.Size(132, 20);
             this.ckbPostLink.TabIndex = 2;
@@ -1471,7 +1412,7 @@
             this.btnOpenContent.ForeColor = System.Drawing.Color.Black;
             this.btnOpenContent.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenContent.Image")));
             this.btnOpenContent.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOpenContent.Location = new System.Drawing.Point(21, 118);
+            this.btnOpenContent.Location = new System.Drawing.Point(21, 117);
             this.btnOpenContent.Name = "btnOpenContent";
             this.btnOpenContent.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnOpenContent.Size = new System.Drawing.Size(228, 54);
@@ -1518,14 +1459,75 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label8
+            // C_Check
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(732, 30);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(98, 16);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "List Keyword:";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.C_Check.DefaultCellStyle = dataGridViewCellStyle7;
+            this.C_Check.HeaderText = "X";
+            this.C_Check.Name = "C_Check";
+            this.C_Check.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.C_Check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.C_Check.Width = 30;
+            // 
+            // C_UID
+            // 
+            this.C_UID.HeaderText = "UID";
+            this.C_UID.Name = "C_UID";
+            // 
+            // C_Password
+            // 
+            this.C_Password.DataPropertyName = "C_Password";
+            this.C_Password.HeaderText = "Pass";
+            this.C_Password.Name = "C_Password";
+            // 
+            // C_Email
+            // 
+            this.C_Email.DataPropertyName = "C_Email";
+            this.C_Email.HeaderText = "Mail";
+            this.C_Email.Name = "C_Email";
+            // 
+            // C_PassEmail
+            // 
+            this.C_PassEmail.DataPropertyName = "C_PassEmail";
+            this.C_PassEmail.HeaderText = "Pass Mail";
+            this.C_PassEmail.Name = "C_PassEmail";
+            // 
+            // C_2FA
+            // 
+            this.C_2FA.DataPropertyName = "C_2FA";
+            this.C_2FA.HeaderText = "2FA";
+            this.C_2FA.Name = "C_2FA";
+            // 
+            // C_Status
+            // 
+            this.C_Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.C_Status.DataPropertyName = "C_Status";
+            this.C_Status.HeaderText = "Status";
+            this.C_Status.Name = "C_Status";
+            // 
+            // C_Folder
+            // 
+            this.C_Folder.DataPropertyName = "C_Folder";
+            this.C_Folder.HeaderText = "Folder";
+            this.C_Folder.Name = "C_Folder";
+            // 
+            // C_Cookie
+            // 
+            this.C_Cookie.DataPropertyName = "C_Cookie";
+            this.C_Cookie.HeaderText = "Cookie";
+            this.C_Cookie.Name = "C_Cookie";
+            // 
+            // C_Token
+            // 
+            this.C_Token.DataPropertyName = "C_Token";
+            this.C_Token.HeaderText = "Token";
+            this.C_Token.Name = "C_Token";
+            // 
+            // C_Proxy
+            // 
+            this.C_Proxy.DataPropertyName = "C_Proxy";
+            this.C_Proxy.HeaderText = "Proxy";
+            this.C_Proxy.Name = "C_Proxy";
             // 
             // Form1
             // 
@@ -1677,17 +1679,6 @@
         private System.Windows.Forms.ToolStripMenuItem MoveDataManageGroup;
         private System.Windows.Forms.ToolStripMenuItem tảiLạiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tảiLạiToolStripMenuItem1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn C_Check;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C_UID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C_Password;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C_Email;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C_PassEmail;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C_2FA;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C_Status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C_Folder;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C_Cookie;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C_Token;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C_Proxy;
         private System.Windows.Forms.CheckBox ckbGetCookie;
         private System.Windows.Forms.CheckBox ckbScanPage;
         private System.Windows.Forms.RichTextBox rtbListKeyWord;
@@ -1706,6 +1697,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn C_FolderGroup;
         private System.Windows.Forms.ToolStripMenuItem copyDữLiệuToolStripMenuItem;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn C_Check;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C_UID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C_Password;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C_Email;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C_PassEmail;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C_2FA;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C_Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C_Folder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C_Cookie;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C_Token;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C_Proxy;
     }
 }
 

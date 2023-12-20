@@ -174,6 +174,7 @@ namespace Tool_Facebook
             {
                 File.Create("input/ApiKeyTMProxy.txt").Close();
             }
+
             sqlController = new SqlController();
             sqlController.createTable("CREATE TABLE IF NOT EXISTS tbl_folders (C_ID INTEGER PRIMARY KEY AUTOINCREMENT,C_Folder TEXT,C_Type TEXT)");
             //sqlController.excuteSQL("INSERT INTO tbl_folders(C_Folder,C_Type) VALUES('All Acc','Account'),('All Group','Group')");
@@ -199,7 +200,7 @@ namespace Tool_Facebook
         #region ManageFolderAcc
         private void btnAddFolderAcc_Click(object sender, EventArgs e)
         {
-            FolderManageAccForm folderManageAccForm = new FolderManageAccForm();
+            FolderManageAccForm folderManageAccForm = new FolderManageAccForm("Account");
             folderManageAccForm.ShowDialog();
             //sqlController.createTable($"INSERT INTO tbl_topic(C_Topic) VALUES ()");
 
@@ -1061,9 +1062,8 @@ namespace Tool_Facebook
         #region FolderManageGroup
         private void btnAddFolderGroup_Click(object sender, EventArgs e)
         {
-            FolderManageGroupForm folderManageGroupForm = new FolderManageGroupForm();
-            folderManageGroupForm.ShowDialog();
-            //sqlController.createTable($"INSERT INTO tbl_topic(C_Topic) VALUES ()");
+            FolderManageAccForm folderManageAccForm = new FolderManageAccForm("Group");
+            folderManageAccForm.ShowDialog();
 
             MoveDataManageGroup.DropDownItems.Clear();
             foreach (var line in _listFolderManageGroup.Where(line => line != cbbFolderManageGroup.Text))
