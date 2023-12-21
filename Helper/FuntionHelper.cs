@@ -315,30 +315,26 @@ namespace Tool_Facebook.Helper
                 if (input.Contains("K"))
                 {
                     input = input.Replace("K", "");
-                    if (input.Contains("."))
+                    if (input.Contains(".") || input.Contains(","))
                     {
-                        input = input.Replace(".", "");
+                        input = input.Replace(".", "").Replace(",", "");
                         return int.Parse(input) * 100;
                     }
-                    input = input.Replace(".", "");
+                    input = input.Replace(".", "").Replace(",", "");
                     return int.Parse(input) * 1000;
                 }
                 else if (input.Contains("M"))
                 {
                     input = input.Replace("M", "");
-                    if (input.Contains("."))
+                    if (input.Contains(".") || input.Contains(","))
                     {
-                        input = input.Replace(".", "");
+                        input = input.Replace(".", "").Replace(",", "");
                         return int.Parse(input) * 100000;
                     }
-                    input = input.Replace(".", "");
+                    input = input.Replace(".", "").Replace(",", "");
                     return int.Parse(input) * 1000000;
                 }
-                else if (input.Contains(","))
-                {
-                    input = input.Replace(",", "");
-                    return int.Parse(input) * 100;
-                }
+
                 return int.Parse(input);
             }
             catch

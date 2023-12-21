@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows.Forms;
 using Tool_Facebook.Helper;
 using Tool_Facebook.Model;
 
@@ -15,7 +16,6 @@ namespace Tool_Facebook.Controller
 {
     public class FacebookAPIController
     {
-        List<string> _listNotDupilicate;
         //public Random random;
         SqlController SqlController;
         public FacebookAPIController()
@@ -24,7 +24,6 @@ namespace Tool_Facebook.Controller
         }
         public ResultModel ScanGroups(AccountModel account, string keyWords)
         {
-            _listNotDupilicate = new List<string>(File.ReadAllLines("input/_listNotDupilicate.txt"));
             List<GroupModel> listGroupModel = new List<GroupModel>();
             //int countgroups = 0;
             using (var rq = new Leaf.xNet.HttpRequest())
@@ -33,7 +32,7 @@ namespace Tool_Facebook.Controller
                 rq.KeepAlive = true;
                 rq.UserAgent = account.C_UserAgent;
                 FunctionHelper.SetCookieToRequestXnet(rq, account.C_Cookie);
-                //rq.Proxy = FunctionHelper.ConvertToProxyClient(account.C_Proxy);
+                rq.Proxy = FunctionHelper.ConvertToProxyClient(account.C_Proxy);
                 string body = "", refer = "", cursor = "";
                 FunctionHelper.AddHeaderxNet(rq, @"dpr: 1.309999942779541
                                                 viewport-width: 770
@@ -82,12 +81,16 @@ namespace Tool_Facebook.Controller
                         groupModel.C_NameGroup = (match.Groups[4].Value).ToString();
                         if (groupModel.C_UIDGroup != "")
                         {
-                            if (_listNotDupilicate.Contains(groupModel.C_UIDGroup))
+                            lock (Form1.lockListNotDupilicate)
                             {
-                                continue;
+                                if (!Form1._listNotDupilicate.Add(groupModel.C_UIDGroup))
+                                {
+                                    continue;
+                                }
+
+                                File.AppendAllText("input/_listNotDupilicate.txt", groupModel.C_UIDGroup + "\n");
                             }
-                            _listNotDupilicate.Add(groupModel.C_UIDGroup);
-                            File.AppendAllText("input/_listNotDupilicate.txt", groupModel.C_UIDGroup + "\n");
+
                             if (matches2.Count == matches.Count && matches2[i].Groups[1].Value == "CAN_JOIN")
                             {
                                 groupModel.C_TypeGroup = "Công khai";
@@ -112,7 +115,7 @@ namespace Tool_Facebook.Controller
                             }
                             if (matches3.Count == matches.Count)
                             {
-                                groupModel.C_MemberGroup = FunctionHelper.ConvertToInt(matches3[i].Groups[2].Value).ToString("N0");
+                                groupModel.C_MemberGroup = FunctionHelper.ConvertToInt(matches3[i].Groups[2].Value).ToString();
                             }
 
                             groupModel.C_FolderGroup = Form1._cbbFolderManageGroup;
@@ -124,6 +127,12 @@ namespace Tool_Facebook.Controller
                 SqlController.BulkInsert(listGroupModel);
                 SqlController.ReloadDataFolderManageGroup(listGroupModel);
                 listGroupModel.Clear();
+
+                Form1.tblManageGroup.Invoke((MethodInvoker)delegate ()
+                {
+                    Form1._lblSumRowGroup.Text = Form1.tblManageGroup.RowCount.ToString();
+                });
+
                 while (cursor != "" && !Form1.stop)
                 {
                     //Cuộn xuống để lấy group tiếp
@@ -198,12 +207,16 @@ namespace Tool_Facebook.Controller
                             groupModel.C_NameGroup = (match.Groups[4].Value).ToString();
                             if (groupModel.C_UIDGroup != "")
                             {
-                                if (_listNotDupilicate.Contains(groupModel.C_UIDGroup))
+                                lock (Form1.lockListNotDupilicate)
                                 {
-                                    continue;
+                                    if (!Form1._listNotDupilicate.Add(groupModel.C_UIDGroup))
+                                    {
+                                        continue;
+                                    }
+
+                                    File.AppendAllText("input/_listNotDupilicate.txt", groupModel.C_UIDGroup + "\n");
                                 }
-                                _listNotDupilicate.Add(groupModel.C_UIDGroup);
-                                File.AppendAllText("input/_listNotDupilicate.txt", groupModel.C_UIDGroup + "\n");
+
                                 if (matches2.Count == matches.Count && matches2[i].Groups[1].Value == "CAN_JOIN")
                                 {
                                     groupModel.C_TypeGroup = "Công khai";
@@ -228,7 +241,7 @@ namespace Tool_Facebook.Controller
                                 }
                                 if (matches3.Count == matches.Count)
                                 {
-                                    groupModel.C_MemberGroup = FunctionHelper.ConvertToInt(matches3[i].Groups[2].Value).ToString("N0");
+                                    groupModel.C_MemberGroup = FunctionHelper.ConvertToInt(matches3[i].Groups[2].Value).ToString();
 
                                 }
 
@@ -241,6 +254,11 @@ namespace Tool_Facebook.Controller
                     SqlController.BulkInsert(listGroupModel);
                     SqlController.ReloadDataFolderManageGroup(listGroupModel);
                     listGroupModel.Clear();
+
+                    Form1.tblManageGroup.Invoke((MethodInvoker)delegate ()
+                    {
+                        Form1._lblSumRowGroup.Text = Form1.tblManageGroup.RowCount.ToString();
+                    });
                 }
             }
             return ResultModel.Success;

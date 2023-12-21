@@ -25,6 +25,7 @@ namespace Tool_Facebook
         public static ComboBox cbbFolderManageAcc1, cbbFolderManageGroup1;
         public static DataGridView tblManageAcc, tblManageGroup;
         public static SqlController sqlController;
+        public static ToolStripLabel _lblSumRowGroup;
         public static int CurrentWidth, CurrentHeight;
         public static string _cbbFolderManageAcc, _cbbFolderManageGroup;
         public int _numberThreadAcc, _threadRunningAcc,
@@ -32,6 +33,7 @@ namespace Tool_Facebook
                    _numberThreadGroup, _threadRunningGroup,
                    _groupPerAcc;
         public double ScaleChrome;
+        public static HashSet<string> _listNotDupilicate;
         public static List<string> _listFolderManageAcc, _listFolderManageGroup;
         public List<string> _proxyList, _contentList,
                             _linkVideoList, _listKeyWord;
@@ -45,7 +47,7 @@ namespace Tool_Facebook
             lockTopic, lockfolder,
             lockRowAccChecked, lockRowGroupChecked,
             lockContent, locklinkVideo,
-            lockKeyword;
+            lockKeyword, lockListNotDupilicate;
         List<DataGridViewRow> rowsAccChecked, rowsGroupChecked;
         Stopwatch stopwatch;
         public Form1()
@@ -55,6 +57,7 @@ namespace Tool_Facebook
             tblManageGroup = dataGridViewGroup;
             cbbFolderManageAcc1 = cbbFolderManageAcc;
             cbbFolderManageGroup1 = cbbFolderManageGroup;
+            _lblSumRowGroup = lblSumRowGroup;
         }
         #region datagrid =""
         private void dataGridViewGroup_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -189,6 +192,7 @@ namespace Tool_Facebook
             lockRowAccChecked = new object();
             lockRowGroupChecked = new object();
             lockKeyword = new object();
+            lockListNotDupilicate = new object();
             _proxyList = new List<string>(File.ReadAllLines("input/Proxy.txt"));
             lblCountProxy.Text = _proxyList.Count.ToString();
             _contentList = new List<string>(File.ReadAllLines("input/ListContent.txt"));
@@ -361,6 +365,11 @@ namespace Tool_Facebook
             }
         }
 
+        private void rtbListKeyWord_TextChanged(object sender, EventArgs e)
+        {
+            lblSumKeyword.Text = rtbListKeyWord.Lines.Count().ToString();
+        }
+
         private void cbbFolderManageAcc_SelectedValueChanged(object sender, EventArgs e)
         {
             _cbbFolderManageAcc = cbbFolderManageAcc.Text;
@@ -483,7 +492,7 @@ namespace Tool_Facebook
             var account = FunctionHelper.ConvertRowToAccountModel(row);
             if (account != null)
             {
-            reStart:
+                reStart:
                 FunctionHelper.EditValueColumn(account, "C_Status", "Đang mở trình duyệt ...");
                 BrowserController browserController = new BrowserController(account);
                 try
@@ -678,7 +687,7 @@ namespace Tool_Facebook
                         //goto finish;
                     }
                 }
-            finish:
+                finish:
                 if (success)
                 {
                     account.C_Row.DefaultCellStyle.ForeColor = Settings.Default.colorGreen;
@@ -985,6 +994,7 @@ namespace Tool_Facebook
                 MessageBox.Show("Vui lòng chọn thư mục!");
                 return;
             }
+
             stop = false;
             _success = 0;
             _fail = 0;
@@ -1022,6 +1032,21 @@ namespace Tool_Facebook
 
             if (_scanPage)
             {
+                _listNotDupilicate = new HashSet<string>();
+                using (StreamReader reader = new StreamReader("input/_listNotDupilicate.txt"))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        _listNotDupilicate.Add(reader.ReadLine());
+                    }
+                }
+
+                for (int i = 0; i < _numberThreadGroup; i++)
+                {
+                    Thread thread = new Thread(OneThreadPostToGroup) { IsBackground = true };
+                    thread.Start();
+                }
+
                 goto startAction;
             }
             rowsGroupChecked = FunctionHelper.GetRowCheckedGroup(tblManageGroup);
@@ -1034,7 +1059,7 @@ namespace Tool_Facebook
                 MessageBox.Show("Chưa chọn group nào!");
                 return;
             }
-        startAction:
+
             if (!_editTextToLink)
             {
                 for (int i = 0; i < _numberThreadGroup; i++)
@@ -1052,6 +1077,7 @@ namespace Tool_Facebook
                     thread.Start();
                 }
             }
+            startAction:
             stopwatch = new Stopwatch();
             stopwatch.Start();
             timer1.Start();
@@ -1132,7 +1158,7 @@ namespace Tool_Facebook
                 apiFacebook = new FacebookAPIController();
                 if (_scanPage)
                 {
-                reStartScanPage:
+                    reStartScanPage:
                     lock (lockKeyword)
                     {
                         if (_listKeyWord.Count == 0)
@@ -1147,7 +1173,7 @@ namespace Tool_Facebook
                     if (status == ResultModel.Success)
                     {
                         success = true;
-                        FunctionHelper.EditValueColumn(account, "C_Status", $"Scan xong", true);
+                        //FunctionHelper.EditValueColumn(account, "C_Status", $"Scan xong", true);
                         if (!stop)
                         {
                             goto reStartScanPage;
@@ -1158,7 +1184,7 @@ namespace Tool_Facebook
                     else if (status == ResultModel.Fail)
                     {
                         success = false;
-                        FunctionHelper.EditValueColumn(account, "C_Status", $"Scan lỗi", true);
+                        //FunctionHelper.EditValueColumn(account, "C_Status", $"Scan lỗi", true);
                         account.C_Row.DefaultCellStyle.ForeColor = Settings.Default.colorRed;
                         goto continueToNextAcc;
                     }
@@ -1356,13 +1382,14 @@ namespace Tool_Facebook
                     }
                     account.C_Row.Cells["C_Check"].Value = false;
                 }
-            continueToNextAcc:
+                continueToNextAcc:
                 account.C_Row.Cells["C_Check"].Value = false;
             }
-        end:
+            end:
             try
             {
-                account.C_Row.Cells["C_Check"].Value = false;
+                if (account != null)
+                    account.C_Row.Cells["C_Check"].Value = false;
             }
             catch
             {
@@ -1515,7 +1542,7 @@ namespace Tool_Facebook
 
                 }
             }
-        end:
+            end:
             Interlocked.Decrement(ref _threadRunningGroup);
             Invoke((MethodInvoker)delegate ()
             {

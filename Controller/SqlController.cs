@@ -54,6 +54,7 @@ namespace Tool_Facebook.Controller
             }
             catch { }
         }
+
         #region SqlManageAcc
         public void ReloadDataManageAcc()
         {
@@ -348,7 +349,6 @@ namespace Tool_Facebook.Controller
         }
         #endregion
 
-
         #region SqlManageGroup
         public void BulkDelete(List<GroupModel> groupDtos)
         {
@@ -552,7 +552,14 @@ namespace Tool_Facebook.Controller
                     row1.Cells[stt++].Value = row["C_StatusGroup"].ToString();
                     row1.Cells[stt++].Value = row["C_CreatedPost"].ToString();
                     row1.Cells[stt++].Value = row["C_TimeEditPost"].ToString();
-                    row1.Cells[stt++].Value = row["C_MemberGroup"].ToString();
+
+                    int mem = 0;
+                    if (row["C_MemberGroup"].ToString() != "")
+                    {
+                        mem = int.Parse(row["C_MemberGroup"].ToString().Replace(",", ""));
+                    }
+                    row1.Cells[stt++].Value = mem;
+
                     row1.Cells[stt++].Value = row["C_FolderGroup"].ToString();
                     rows.Add(row1);
                 }
@@ -628,7 +635,12 @@ namespace Tool_Facebook.Controller
                     row1.Cells[stt++].Value = row["C_StatusGroup"].ToString();
                     row1.Cells[stt++].Value = row["C_CreatedPost"].ToString();
                     row1.Cells[stt++].Value = row["C_TimeEditPost"].ToString();
-                    row1.Cells[stt++].Value = row["C_MemberGroup"].ToString();
+                    int mem = 0;
+                    if (row["C_MemberGroup"].ToString() != "")
+                    {
+                        mem = int.Parse(row["C_MemberGroup"].ToString().Replace(",", ""));
+                    }
+                    row1.Cells[stt++].Value = mem;
                     row1.Cells[stt++].Value = row["C_FolderGroup"].ToString();
                     rows.Add(row1);
                 }
@@ -673,7 +685,14 @@ namespace Tool_Facebook.Controller
                     row1.Cells[stt++].Value = listGroup[i].C_StatusGroup;
                     row1.Cells[stt++].Value = listGroup[i].C_CreatedPost;
                     row1.Cells[stt++].Value = listGroup[i].C_TimeEditPost;
-                    row1.Cells[stt++].Value = listGroup[i].C_MemberGroup;
+
+                    int mem = 0;
+                    if (listGroup[i].C_MemberGroup != "")
+                    {
+                        mem = int.Parse(listGroup[i].C_MemberGroup.Replace(",", ""));
+                    }
+                    row1.Cells[stt++].Value = mem;
+
                     row1.Cells[stt++].Value = listGroup[i].C_FolderGroup;
                     rows.Add(row1);
                 }
@@ -721,8 +740,6 @@ namespace Tool_Facebook.Controller
 
             return ds;
         }
-
-
 
     }
 }
