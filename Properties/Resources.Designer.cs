@@ -59,5 +59,35 @@ namespace Tool_Facebook.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap istockphoto_1308682666_612x612 {
+            get {
+                object obj = ResourceManager.GetObject("istockphoto-1308682666-612x612", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap istockphoto_1308682666_612x6121 {
+            get {
+                object obj = ResourceManager.GetObject("istockphoto-1308682666-612x6121", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pexels_codioful__formerly_gradienta__7130555 {
+            get {
+                object obj = ResourceManager.GetObject("pexels-codioful-(formerly-gradienta)-7130555", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

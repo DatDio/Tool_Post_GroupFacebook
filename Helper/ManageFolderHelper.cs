@@ -45,7 +45,6 @@ namespace Tool_Facebook.Helper
             }
             Form1.sqlController.BulkUpdate(list);
         }
-
         public static void OnClickCopyTabGroup(object sender, EventArgs e)
         {
             var item = (ToolStripItem)sender;

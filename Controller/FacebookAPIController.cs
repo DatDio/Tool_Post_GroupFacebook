@@ -70,7 +70,8 @@ namespace Tool_Facebook.Controller
                 var matches = Regex.Matches(body, "__isNode\":\"Group\",\"id\":\"(.*?)\",\"__isEntity\":\"Group\",\"profile_url\":\"(.*?)\",\"url\":\"(.*?)\",\"name\":\"(.*?)\",");
                 var matches2 = Regex.Matches(body, "\"viewer_forum_join_state\":\"(.*?)\",");
                 var matches3 = Regex.Matches(body, "\"prominent_snippet_text_with_entities\":null,\"primary_snippet_text_with_entities\":{\"delight_ranges\":\\[],\"image_ranges\":\\[],\"inline_style_ranges\":\\[],\"aggregated_ranges\":\\[],\"ranges\":\\[],\"color_ranges\":\\[],\"text\":\"(.*?) \\\\u00b7 (.*?) ");
-                if (matches.Count == 0) return ResultModel.Fail;
+                if (matches.Count == 0) 
+                    return ResultModel.Fail;
                 for (int i = 0; i < matches.Count; i++)
                 {
                     var match = matches[i];
@@ -196,7 +197,8 @@ namespace Tool_Facebook.Controller
                     matches = Regex.Matches(body, "__isNode\":\"Group\",\"id\":\"(.*?)\",\"__isEntity\":\"Group\",\"profile_url\":\"(.*?)\",\"url\":\"(.*?)\",\"name\":\"(.*?)\",");
                     matches2 = Regex.Matches(body, "\"viewer_forum_join_state\":\"(.*?)\",");
                     matches3 = Regex.Matches(body, "\"prominent_snippet_text_with_entities\":null,\"primary_snippet_text_with_entities\":{\"delight_ranges\":\\[],\"image_ranges\":\\[],\"inline_style_ranges\":\\[],\"aggregated_ranges\":\\[],\"ranges\":\\[],\"color_ranges\":\\[],\"text\":\"(.*?) \\\\u00b7 (.*?) ");
-                    if (matches.Count == 0) return ResultModel.Fail;
+                    if (matches.Count == 0) 
+                        return ResultModel.Fail;
                     for (int i = 0; i < matches.Count; i++)
                     {
                         var match = matches[i];
@@ -349,6 +351,7 @@ namespace Tool_Facebook.Controller
             using (var rq = new Leaf.xNet.HttpRequest())
             {
                 rq.AllowAutoRedirect = true;
+                //rq.MaximumAutomaticRedirections = 100;
                 rq.KeepAlive = true;
                 rq.UserAgent = account.C_UserAgent;
                 //account.C_Cookie = "sb=zYiCYXmTV6Lo2j0SSdD4z-EX; datr=BFBXZS3zHKgU7vEYxxtr9uq0; locale=vi_VN; wl_cbv=v2%3Bclient_version%3A2376%3Btimestamp%3A1702437833; vpd=v1%3B659x400x2.0000000509232905; dpr=1.309999942779541; usida=eyJ2ZXIiOjEsImlkIjoiQXM1bDZ5Nzk3Z21hdCIsInRpbWUiOjE3MDI0Mzk3OTF9; c_user=100088692310375; xs=40%3Ast2vRN1IKclxTA%3A2%3A1702462228%3A-1%3A-1; fr=1U5OuF6ARu4HFAffd.AWW5tL9SIynemLngCfmq8ZZ2zXs.BleYCx.KC.AAA.0.0.BleYMU.AWVMWMqDjkw; presence=C%7B%22t3%22%3A%5B%5D%2C%22utc3%22%3A1702462239333%2C%22v%22%3A1%7D; wd=646x701";
@@ -381,8 +384,10 @@ namespace Tool_Facebook.Controller
                 }
                 catch
                 {
-
+                    body = rq.Response.ToString();
                 }
+                if (refer.Contains("checkpoint"))
+                    return ResultModel.CheckPoint;
                 var sharepr = RegexHelper.GetValueFromGroup("\"subscription_target_id\":\"(.*?)\"", body);
                 var av = RegexHelper.GetValueFromGroup("__user=(.*?)&", body);
                 var _user = av;

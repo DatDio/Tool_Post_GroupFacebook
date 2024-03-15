@@ -662,7 +662,6 @@ namespace Tool_Facebook.Controller
                 //
             }
         }
-
         public void ReloadDataFolderManageGroup(List<GroupModel> listGroup)
         {
             try
@@ -713,7 +712,6 @@ namespace Tool_Facebook.Controller
             }
         }
         #endregion
-
         public DataSet Select(string sql)
         {
             //"SELECT stt, uid from tbl_accounts"
