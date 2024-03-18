@@ -32,7 +32,20 @@ namespace Tool_Facebook.Helper
 
             return new string(randomString);
         }
-        public static List<int> GetRowIndexSelected(DataGridView dataGridView, bool sort_ascending = false)
+		public static string GenerateRandomStringOnly(int length)
+		{
+			Random random = new Random();
+			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+			char[] randomString = new char[length];
+
+			for (int i = 0; i < length; i++)
+			{
+				randomString[i] = chars[random.Next(chars.Length)];
+			}
+
+			return new string(randomString);
+		}
+		public static List<int> GetRowIndexSelected(DataGridView dataGridView, bool sort_ascending = false)
         {
             // Biến selectedcells để lưu các ô đã chọn trong datagridview
             var selectedCells = dataGridView.SelectedCells;
@@ -133,7 +146,26 @@ namespace Tool_Facebook.Helper
 
             return rows_checked;
         }
-        public static void EditValueColumn(AccountModel account, string column, string content, bool update = false)
+		public static List<DataGridViewRow> GetRowCheckedPage(DataGridView dataGridView)
+		{
+			List<DataGridViewRow> rows_checked = new List<DataGridViewRow>();
+
+			foreach (DataGridViewRow row in dataGridView.Rows)
+			{
+				try
+				{
+					if (row.Cells["C_CheckPage"].Value == null)
+						continue;
+
+					if ((bool)row.Cells["C_CheckPage"].Value == true)
+						rows_checked.Add(row);
+				}
+				catch { }
+			}
+
+			return rows_checked;
+		}
+		public static void EditValueColumn(AccountModel account, string column, string content, bool update = false)
         {
             try
             {
@@ -160,7 +192,17 @@ namespace Tool_Facebook.Helper
                 Form1.sqlController.Update(group);
             }
         }
-        public static void EditValueColumnTypeInt(AccountModel account, string column, int content, bool update = false)
+		public static void EditValueColumn(PageModel page, string column, string content, bool update = false)
+		{
+			page.C_Row.Cells[column].Value = content;
+
+			if (update)
+			{
+				SetPropertyValue(page, column, content);
+				ManagePageForm.sqlController.Update(page);
+			}
+		}
+		public static void EditValueColumnTypeInt(AccountModel account, string column, int content, bool update = false)
         {
             account.C_Row.Cells[column].Value = content;
 
@@ -188,7 +230,16 @@ namespace Tool_Facebook.Helper
                 propertyInfo.SetValue(group, value);
             }
         }
-        public static int RandomMinutes(int min, int max)
+		public static void SetPropertyValue(PageModel page, string propertyName, object value)
+		{
+			PropertyInfo propertyInfo = page.GetType().GetProperty(propertyName);
+
+			if (propertyInfo != null && propertyInfo.CanWrite)
+			{
+				propertyInfo.SetValue(page, value);
+			}
+		}
+		public static int RandomMinutes(int min, int max)
         {
             Random random = new Random();
             int randomNumber;
@@ -262,7 +313,8 @@ namespace Tool_Facebook.Helper
         {
             try
             {
-                return new AccountModel
+				string cGPMID = row.Cells["C_GPMID"].Value != null ? row.Cells["C_GPMID"].Value.ToString() : "";
+				return new AccountModel
                 {
                     C_UID = row.Cells["C_UID"].Value.ToString() ?? "",
                     C_Password = row.Cells["C_Password"].Value.ToString() ?? "",
@@ -274,7 +326,8 @@ namespace Tool_Facebook.Helper
                     C_Cookie = row.Cells["C_Cookie"].Value.ToString() ?? "",
                     C_Token = row.Cells["C_Token"].Value.ToString() ?? "",
                     C_Proxy = row.Cells["C_Proxy"].Value.ToString() ?? "",
-                    C_Row = row
+					C_GPMID = cGPMID,
+					C_Row = row
                 };
             }
             catch
@@ -308,7 +361,29 @@ namespace Tool_Facebook.Helper
                 return null;
             }
         }
-        public static int ConvertToInt(string input)
+		public static PageModel ConvertRowToPageModel(DataGridViewRow row)
+		{
+			try
+			{
+				return new PageModel
+				{
+					C_UIDVia = row.Cells["C_UIDVia"].Value.ToString(),
+					C_IDPage = row.Cells["C_IDPage"].Value.ToString() ?? "",
+					C_NamePage = row.Cells["C_NamePage"].Value.ToString() ?? "",
+					C_Follower = row.Cells["C_Follower"].Value.ToString() ?? "",
+					C_StatusPage = row.Cells["C_StatusPage"].Value.ToString() ?? "",
+					C_CookieVia = row.Cells["C_CookieVia"].Value.ToString() ?? "",
+                    C_FolderPage = row.Cells["C_FolderPage"].Value.ToString() ?? "",
+					C_ProxyPage = row.Cells["C_ProxyPage"].Value.ToString() ?? "",
+					C_Row = row
+				};
+			}
+			catch
+			{
+				return null;
+			}
+		}
+		public static int ConvertToInt(string input)
         {
             try
             {

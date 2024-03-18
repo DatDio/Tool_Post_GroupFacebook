@@ -24,7 +24,8 @@ namespace Tool_Facebook.Model
         public string C_Token { get; set; }
         public string C_Proxy { get; set; }
         public string C_UserAgent { get; set; } = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
-        [JsonIgnore]
+		public string C_GPMID { get; set; }
+		[JsonIgnore]
         public DataGridViewRow C_Row { get; set; }
     }
 }

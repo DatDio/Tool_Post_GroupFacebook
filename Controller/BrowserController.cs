@@ -15,12 +15,84 @@ namespace Tool_Facebook.Controller
     {
         ChromeDriver driver;
         AccountModel account;
-        public BrowserController(AccountModel account)
+		private GPMLoginAPI api;
+		public BrowserController(AccountModel account)
         {
             this.account = account;
         }
-       
-        public ChromeDriver OpenChrome(string userAgent = "", double scale = 0.5, string position = "0,0")
+		public ChromeDriver OpenChromeGpm(string apiGpm, string createdProfileId, string name, string useragent = "", double scale = 0.7, string proxy = "", bool hideBrowser = false, string position = "0,0")
+		{
+			//this.createdProfileId = "";
+
+			api = new GPMLoginAPI(apiGpm);
+
+			if (String.IsNullOrEmpty(createdProfileId))
+			{
+				var createdResult = api.Create(name, isNoiseCanvas: true);
+
+				if (createdResult != null)
+				{
+					var status = Convert.ToBoolean(createdResult["status"]);
+					if (status)
+					{
+						createdProfileId = Convert.ToString(createdResult["profile_id"]);
+						account.C_GPMID = createdProfileId;
+						FunctionHelper.EditValueColumn(account, "C_GPMID", createdProfileId, true);
+					}
+
+				}
+
+				//this.createdProfileId = createdProfileId;
+				//Console.WriteLine("Created profile ID: " + createdProfileId);
+			}
+
+			//if (string.IsNullOrEmpty(position))
+			//{
+			//	position = GetNewPosition(800, 800, scale);
+			//}
+
+			var arg = $"--window-position={position} --window-size=800,800 --force-device-scale-factor={scale} --disable-notifications";
+
+			if (useragent != "")
+			{
+				arg += $" --user-agent=\"{useragent}\"";
+			}
+
+			if (hideBrowser)
+			{
+				arg += $" --headless";
+			}
+
+			api.UpdateProxy(createdProfileId, proxy.Replace("http://", ""));
+
+			var startedResult = api.Start(createdProfileId, null, arg);
+
+			var browserLocation = Convert.ToString(startedResult["browser_location"]);
+			var seleniumRemoteDebugAddress = Convert.ToString(startedResult["selenium_remote_debug_address"]);
+			var gpmDriverPath = Convert.ToString(startedResult["selenium_driver_location"]);
+
+			if (gpmDriverPath == "")
+			{
+				//createdProfileId = "";
+				//goto CreateProfile;
+				return null;
+			}
+
+			var gpmDriverFileInfo = new FileInfo(gpmDriverPath);
+
+			var service = ChromeDriverService.CreateDefaultService(gpmDriverFileInfo.DirectoryName, gpmDriverFileInfo.Name);
+			service.HideCommandPromptWindow = true;
+			var options = new ChromeOptions
+			{
+				BinaryLocation = browserLocation,
+				DebuggerAddress = seleniumRemoteDebugAddress
+			};
+
+			driver = new ChromeDriver(service, options);
+
+			return driver;
+		}
+		public ChromeDriver OpenChrome(string userAgent = "", double scale = 0.5, string position = "0,0")
         {
             if (string.IsNullOrEmpty(position))
             {
@@ -97,20 +169,28 @@ namespace Tool_Facebook.Controller
 
             return current_size;
         }
-        public void CloseChrome()
-        {
-            try
-            {
-                var windowHandles = driver.WindowHandles;
-                foreach (var handle in windowHandles)
-                {
-                    driver.SwitchTo().Window(handle);
-                    driver.Close();
-                }
+		public void CloseChrome()
+		{
+			try
+			{
+				var windowHandles = driver.WindowHandles;
+				foreach (var handle in windowHandles)
+				{
+					driver.SwitchTo().Window(handle);
+					driver.Close();
+				}
 
-                driver.Quit();
-            }
-            catch { }
-        }
-    }
+				driver.Quit();
+			}
+			catch { }
+			try
+			{
+				api.Stop(account.C_GPMID);
+			}
+			catch
+			{
+
+			}
+		}
+	}
 }

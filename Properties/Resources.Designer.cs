@@ -63,6 +63,26 @@ namespace Tool_Facebook.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _7fae5c49937386a0942c3ddaef1b5159 {
+            get {
+                object obj = ResourceManager.GetObject("7fae5c49937386a0942c3ddaef1b5159", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fb_icon {
+            get {
+                object obj = ResourceManager.GetObject("fb_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap istockphoto_1308682666_612x612 {
             get {
                 object obj = ResourceManager.GetObject("istockphoto-1308682666-612x612", resourceCulture);

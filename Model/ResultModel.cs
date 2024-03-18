@@ -15,7 +15,9 @@ namespace Tool_Facebook.Model
         CheckPoint282,
         KiemDuyet,
         KoKiemDuyet,
-        PostDeleted
-
-    }
+        PostDeleted,
+		NameError, 
+        HasNoPage, 
+        LoginFail
+	}
 }

@@ -36,16 +36,16 @@ namespace Tool_Facebook.Helper
 
             return false;
         }
-        public static void Scroll(ChromeDriver driver)
-        {
-            try
-            {
-                driver.ExecuteScript("window.scrollBy(0, 600);");
-            }
-            catch { }
+		public static void Scroll(ChromeDriver driver, int lenght)
+		{
+			try
+			{
+				driver.ExecuteScript($"window.scrollBy(0, {lenght});");
+			}
+			catch { }
 
-        }
-        public static bool GetAttributeTym(ChromeDriver driver)
+		}
+		public static bool GetAttributeTym(ChromeDriver driver)
         {
             try
             {

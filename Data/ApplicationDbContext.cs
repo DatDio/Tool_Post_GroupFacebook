@@ -12,8 +12,8 @@ namespace Tool_Facebook.Data
 	{
 		public DbSet<tblPage> tblPages { get; set; }
 		public DbSet<tblVia> tblVias { get; set; }
-		string pathDatabase = Path.GetFullPath("input/Account.sqllite");
+		string pathDatabase = Path.GetFullPath("Account.sqllite");
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-			=> optionsBuilder.UseSqlite($"Data Source={pathDatabase}");
+			=> optionsBuilder.UseSqlite($"Data Source={Environment.CurrentDirectory}\\input\\Account.db");
 	}
 }

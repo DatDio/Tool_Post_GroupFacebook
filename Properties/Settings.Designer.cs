@@ -154,5 +154,53 @@ namespace Tool_Facebook.Properties {
                 this["txtNumberThreadGroup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string txtNumberPagePerAcc {
+            get {
+                return ((string)(this["txtNumberPagePerAcc"]));
+            }
+            set {
+                this["txtNumberPagePerAcc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string txtNumberThread {
+            get {
+                return ((string)(this["txtNumberThread"]));
+            }
+            set {
+                this["txtNumberThread"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cbbProxyType {
+            get {
+                return ((string)(this["cbbProxyType"]));
+            }
+            set {
+                this["cbbProxyType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string txtAPIGPM {
+            get {
+                return ((string)(this["txtAPIGPM"]));
+            }
+            set {
+                this["txtAPIGPM"] = value;
+            }
+        }
     }
 }

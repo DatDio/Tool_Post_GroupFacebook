@@ -31,7 +31,8 @@ namespace Tool_Facebook
                 sqlController.excuteSQL($"INSERT INTO tbl_folders(C_Folder,C_Type) VALUES ('{txtFolderManageAcc.Text}','Account')");
                 MessageBox.Show($"Đã thêm chủ đề {txtFolderManageAcc.Text}");
                 Form1.cbbFolderManageAcc1.Items.Add($"{txtFolderManageAcc.Text}");
-            }
+				ManagePageForm._cbbManageFolderAcc.Items.Add($"{txtFolderManageAcc.Text}");
+			}
             if (type == "Group")
             {
                 sqlController.excuteSQL($"INSERT INTO tbl_folders(C_Folder,C_Type) VALUES ('{txtFolderManageAcc.Text}','Group')");

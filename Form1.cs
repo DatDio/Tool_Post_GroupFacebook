@@ -38,6 +38,7 @@ namespace Tool_Facebook
 		public List<string> _proxyList, _contentList,
 							_linkVideoList, _listKeyWord;
 		public static bool stop;
+		public bool saved = false;
 		public bool finish,
 							_checkLiveUID, _solveCheckPoint,
 							_postText, _postLink,
@@ -61,16 +62,91 @@ namespace Tool_Facebook
 			cbbFolderManageGroup1 = cbbFolderManageGroup;
 			_lblSumRowGroup = lblSumRowGroup;
 		}
+		private void Form1_Load(object sender, EventArgs e)
+		{
+			initialForm = this;
+			txtGroupPerAcc.Text = Settings.Default.txtGroupPerAcc;
+			txtNumberThreadAcc.Text = Settings.Default.txtNumberThreadAcc;
+			txtNumberThreadGroup.Text = Settings.Default.txtNumberThreadGroup;
+			ckbCheckLiveUID.Checked = Settings.Default.ckbCheckLiveUID;
+			ckbSolveCheckPoint.Checked = Settings.Default.ckbSolveCheckPoint;
+			ckbPostText.Checked = Settings.Default.ckbPostText;
+			ckbPostLink.Checked = Settings.Default.ckbPostLink;
+			ckbEditTextToLink.Checked = Settings.Default.ckbEditTextToLink;
+			#region Mượt mà datagridview
+			var dvgType = tblManageAcc.GetType();
+			var pi = dvgType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+			pi.SetValue(tblManageAcc, true, null);
+			pi.SetValue(tblManageGroup, true, null);
+			tblManageAcc.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.EnableResizing;
+			tblManageGroup.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.EnableResizing;
+			#endregion
+			if (!Directory.Exists("input"))
+			{
+				Directory.CreateDirectory("input");
+			}
+			if (!Directory.Exists("output"))
+			{
+				Directory.CreateDirectory("output");
+			}
+			if (!File.Exists("input/_listNotDupilicate.txt"))
+			{
+				File.Create("input/_listNotDupilicate.txt").Close();
+			}
+			if (!File.Exists("input/Proxy.txt"))
+			{
+				File.Create("input/Proxy.txt").Close();
+			}
+			if (!File.Exists("input/ListLinkVideo.txt"))
+			{
+				File.Create("input/ListLinkVideo.txt").Close();
+			}
+			if (!File.Exists("input/ListContent.txt"))
+			{
+				File.Create("input/ListContent.txt").Close();
+			}
+			if (!File.Exists("input/ApiKeyTMProxy.txt"))
+			{
+				File.Create("input/ApiKeyTMProxy.txt").Close();
+			}
+
+			sqlController = new SqlController();
+			sqlController.createTable("CREATE TABLE IF NOT EXISTS tbl_folders (C_ID INTEGER PRIMARY KEY AUTOINCREMENT,C_Folder TEXT,C_Type TEXT)");
+			sqlController.createTable("CREATE TABLE IF NOT EXISTS tblPage (C_UIDVia TEXT, C_IDPage TEXT PRIMARY KEY, C_NamePage TEXT, C_Follower TEXT, C_StatusPage TEXT, C_CookieVia TEXT,C_FolderPage TEXT,C_ProxyPage TEXT, FOREIGN KEY (C_UIDVia) REFERENCES tbl_accounts (C_UID))");
+			//sqlController.excuteSQL("INSERT INTO tbl_folders(C_Folder,C_Type) VALUES('All Acc','Account'),('All Group','Group')");
+			sqlController.createTable("CREATE TABLE IF NOT EXISTS tbl_accounts (C_UID TEXT PRIMARY KEY,C_Password,C_Email TEXT, C_PassEmail TEXT, C_2FA TEXT, C_Cookie TEXT, C_Token TEXT,C_Status TEXT, C_Proxy TEXT,C_Folder Text,C_UserAgent TEXT,C_GPMID TEXT)");
+			sqlController.createTable("CREATE TABLE IF NOT EXISTS tbl_groups (C_IDGroup TEXT PRIMARY KEY,C_UIDGroup TEXT,C_NameGroup TEXT,C_Censorship TEXT, C_UIDVia TEXT, C_PostID TEXT, C_StatusGroup TEXT, C_CreatedPost TEXT,C_TimeEditPost TEXT, C_MemberGroup TEXT,C_TypeGroup Text,C_FolderGroup TEXT)");
+			sqlController.excuteSQL("CREATE TRIGGER update_cookie_proxy_folderPage AFTER UPDATE OF C_Cookie, C_Proxy, C_Folder ON tbl_accounts BEGIN UPDATE tblPage SET C_CookieVia = NEW.C_Cookie, C_ProxyPage = NEW.C_Proxy, C_FolderPage = NEW.C_Folder WHERE C_UIDVia = NEW.C_UID; END");
+			sqlController.LoadDataIntoComboBoxManageAcc();
+			sqlController.LoadDataIntoComboBoxManageGroup();
+			lockChrome = new object();
+			lockProxy = new object();
+			lockContent = new object();
+			locklinkVideo = new object();
+			lockRowAccChecked = new object();
+			lockRowGroupChecked = new object();
+			lockKeyword = new object();
+			lockListNotDupilicate = new object();
+			_proxyList = new List<string>(File.ReadAllLines("input/Proxy.txt"));
+			lblCountProxy.Text = _proxyList.Count.ToString();
+			_contentList = new List<string>(File.ReadAllLines("input/ListContent.txt"));
+			lblCountContent.Text = _contentList.Count.ToString();
+			_linkVideoList = new List<string>(File.ReadAllLines("input/ListLinkVideo.txt"));
+			lblCountLinkVideo.Text = _linkVideoList.Count.ToString();
+
+		}
 		private void OpenChildForm(Form childForm)
 		{
-			if (currentFormChild != null)
-			{
-				currentFormChild.Close();
-			}
+			//if (currentFormChild != null)
+			//{
+			//	currentFormChild.Close();
+			//}
+			panelMain.Controls.Clear();
 			currentFormChild = childForm;
 			childForm.TopLevel = false;
 			childForm.FormBorderStyle = FormBorderStyle.None;
 			childForm.Dock = DockStyle.Fill;
+			//panelMain.;
 			panelMain.Controls.Add(childForm);
 			panelMain.Tag = childForm;
 			childForm.BringToFront();
@@ -78,11 +154,28 @@ namespace Tool_Facebook
 		}
 		private void btnOpenManageAcc_Click(object sender, EventArgs e)
 		{
-			if (initialForm != null)
+			try
 			{
-				currentFormChild.Close();
-				initialForm.Show();
+				currentFormChild.Hide();
 			}
+			catch{
+
+			}
+			panelMain.Controls.Add(tabManageAcc);
+			initialForm.Show();
+			//if (initialForm != null)
+			//{
+			//	try
+			//	{
+			//		currentFormChild.Close();
+			//	}
+			//	catch
+			//	{
+
+			//	}
+			//	panelMain.Controls.Clear();
+			//	//initialForm.Close();
+			//}
 		}
 		private void btnOpenManage_Click(object sender, EventArgs e)
 		{
@@ -160,78 +253,7 @@ namespace Tool_Facebook
 			Process.Start(Path.GetFullPath("input/ListLinkVideo.txt"));
 
 		}
-		private void Form1_Load(object sender, EventArgs e)
-		{
-			initialForm = this;
 
-			txtGroupPerAcc.Text = Settings.Default.txtGroupPerAcc;
-			txtNumberThreadAcc.Text = Settings.Default.txtNumberThreadAcc;
-			txtNumberThreadGroup.Text = Settings.Default.txtNumberThreadGroup;
-			ckbCheckLiveUID.Checked = Settings.Default.ckbCheckLiveUID;
-			ckbSolveCheckPoint.Checked = Settings.Default.ckbSolveCheckPoint;
-			ckbPostText.Checked = Settings.Default.ckbPostText;
-			ckbPostLink.Checked = Settings.Default.ckbPostLink;
-			ckbEditTextToLink.Checked = Settings.Default.ckbEditTextToLink;
-			#region Mượt mà datagridview
-			var dvgType = tblManageAcc.GetType();
-			var pi = dvgType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-			pi.SetValue(tblManageAcc, true, null);
-			pi.SetValue(tblManageGroup, true, null);
-			tblManageAcc.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.EnableResizing;
-			tblManageGroup.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.EnableResizing;
-			#endregion
-			if (!Directory.Exists("input"))
-			{
-				Directory.CreateDirectory("input");
-			}
-			if (!Directory.Exists("output"))
-			{
-				Directory.CreateDirectory("output");
-			}
-			if (!File.Exists("input/_listNotDupilicate.txt"))
-			{
-				File.Create("input/_listNotDupilicate.txt").Close();
-			}
-			if (!File.Exists("input/Proxy.txt"))
-			{
-				File.Create("input/Proxy.txt").Close();
-			}
-			if (!File.Exists("input/ListLinkVideo.txt"))
-			{
-				File.Create("input/ListLinkVideo.txt").Close();
-			}
-			if (!File.Exists("input/ListContent.txt"))
-			{
-				File.Create("input/ListContent.txt").Close();
-			}
-			if (!File.Exists("input/ApiKeyTMProxy.txt"))
-			{
-				File.Create("input/ApiKeyTMProxy.txt").Close();
-			}
-
-			sqlController = new SqlController();
-			sqlController.createTable("CREATE TABLE IF NOT EXISTS tbl_folders (C_ID INTEGER PRIMARY KEY AUTOINCREMENT,C_Folder TEXT,C_Type TEXT)");
-			//sqlController.excuteSQL("INSERT INTO tbl_folders(C_Folder,C_Type) VALUES('All Acc','Account'),('All Group','Group')");
-			sqlController.createTable("CREATE TABLE IF NOT EXISTS tbl_accounts (C_UID TEXT PRIMARY KEY,C_Password,C_Email TEXT, C_PassEmail TEXT, C_2FA TEXT, C_Cookie TEXT, C_Token TEXT,C_Status TEXT, C_Proxy TEXT,C_Folder Text,C_UserAgent TEXT)");
-			sqlController.createTable("CREATE TABLE IF NOT EXISTS tbl_groups (C_IDGroup TEXT PRIMARY KEY,C_UIDGroup TEXT,C_NameGroup TEXT,C_Censorship TEXT, C_UIDVia TEXT, C_PostID TEXT, C_StatusGroup TEXT, C_CreatedPost TEXT,C_TimeEditPost TEXT, C_MemberGroup TEXT,C_TypeGroup Text,C_FolderGroup TEXT)");
-			sqlController.LoadDataIntoComboBoxManageAcc();
-			sqlController.LoadDataIntoComboBoxManageGroup();
-			lockChrome = new object();
-			lockProxy = new object();
-			lockContent = new object();
-			locklinkVideo = new object();
-			lockRowAccChecked = new object();
-			lockRowGroupChecked = new object();
-			lockKeyword = new object();
-			lockListNotDupilicate = new object();
-			_proxyList = new List<string>(File.ReadAllLines("input/Proxy.txt"));
-			lblCountProxy.Text = _proxyList.Count.ToString();
-			_contentList = new List<string>(File.ReadAllLines("input/ListContent.txt"));
-			lblCountContent.Text = _contentList.Count.ToString();
-			_linkVideoList = new List<string>(File.ReadAllLines("input/ListLinkVideo.txt"));
-			lblCountLinkVideo.Text = _linkVideoList.Count.ToString();
-
-		}
 		#region ManageFolderAcc
 		private void btnAddFolderAcc_Click(object sender, EventArgs e)
 		{
@@ -414,16 +436,17 @@ namespace Tool_Facebook
 			}
 		}
 
-		private void btnDeleteFolderAcc_Click_1(object sender, EventArgs e)
+	
+		private void cbbFolderManageGroup_SelectedValueChanged_1(object sender, EventArgs e)
 		{
-			var status = MessageBox.Show($"Bạn có chắc muốn xóa chủ đề và dữ liệu trong chủ đề {cbbFolderManageAcc.Text} này? ", "Cảnh báo!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-			if (status == DialogResult.Yes)
+			_cbbFolderManageAcc = cbbFolderManageAcc.Text;
+			string selectedItem = cbbFolderManageAcc.SelectedItem.ToString();
+			//MessageBox.Show("Bạn đã chọn: " + selectedItem);
+			if (cbbFolderManageAcc.Text == "All Acc")
+				sqlController.ReloadDataManageAcc();
+			else
 			{
-				sqlController.excuteSQL($"DELETE FROM tbl_folders WHERE C_Folder='{cbbFolderManageAcc.Text}'");
-				sqlController.excuteSQL($"DELETE FROM tbl_accounts WHERE C_Folder='{cbbFolderManageAcc.Text}'");
-				sqlController.LoadDataIntoComboBoxManageAcc();
-				tblManageAcc.Rows.Clear();
-				cbbFolderManageAcc.Text = "";
+				sqlController.ReloadDataFolderManageAcc(cbbFolderManageAcc.Text);
 			}
 
 			MoveDataManageAcc.DropDownItems.Clear();
@@ -431,8 +454,9 @@ namespace Tool_Facebook
 			{
 				MoveDataManageAcc.DropDownItems.Add(line, null, ManageFolderHelper.OnClickTabAcc);
 			}
+			lblSumRowCountAcc.Text = tblManageAcc.RowCount.ToString();
 		}
-		
+
 		private void cbbFolderManageAcc_SelectedValueChanged(object sender, EventArgs e)
 		{
 			_cbbFolderManageAcc = cbbFolderManageAcc.Text;
@@ -451,6 +475,75 @@ namespace Tool_Facebook
 				MoveDataManageAcc.DropDownItems.Add(line, null, ManageFolderHelper.OnClickTabAcc);
 			}
 			lblSumRowCountAcc.Text = tblManageAcc.RowCount.ToString();
+		}
+
+		private void copyDữLiệuToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void MoveDataManageGroup_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void cbbFolderManageAcc_SelectedValueChanged_1(object sender, EventArgs e)
+		{
+			_cbbFolderManageAcc = cbbFolderManageAcc.Text;
+			string selectedItem = cbbFolderManageAcc.SelectedItem.ToString();
+			//MessageBox.Show("Bạn đã chọn: " + selectedItem);
+			if (cbbFolderManageAcc.Text == "All Acc")
+				sqlController.ReloadDataManageAcc();
+			else
+			{
+				sqlController.ReloadDataFolderManageAcc(cbbFolderManageAcc.Text);
+			}
+
+			MoveDataManageAcc.DropDownItems.Clear();
+			foreach (var line in _listFolderManageAcc.Where(line => line != cbbFolderManageAcc.Text))
+			{
+				MoveDataManageAcc.DropDownItems.Add(line, null, ManageFolderHelper.OnClickTabAcc);
+			}
+			lblSumRowCountAcc.Text = tblManageAcc.RowCount.ToString();
+		}
+
+		private void btnOpenProxy_Click(object sender, EventArgs e)
+		{
+			Process.Start(Path.GetFullPath("input/Proxy.txt"));
+		}
+
+		private void btnOpenContent_Click(object sender, EventArgs e)
+		{
+			Process.Start(Path.GetFullPath("input/ListContent.txt"));
+		}
+
+		private void btnOpenLinkVideo_Click(object sender, EventArgs e)
+		{
+			Process.Start(Path.GetFullPath("input/ListLinkVideo.txt"));
+		}
+
+		private void btnDeleteFolderGroup_Click(object sender, EventArgs e)
+		{
+			var status = MessageBox.Show($"Bạn có chắc muốn xóa chủ đề và dữ liệu trong chủ đề {cbbFolderManageGroup.Text} này? ", "Cảnh báo!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+			if (status == DialogResult.Yes)
+			{
+				sqlController.excuteSQL($"DELETE FROM tbl_folders WHERE C_Folder='{cbbFolderManageGroup.Text}'");
+				sqlController.excuteSQL($"DELETE FROM tbl_groups WHERE C_FolderGroup='{cbbFolderManageGroup.Text}'");
+				sqlController.LoadDataIntoComboBoxManageGroup();
+				tblManageGroup.Rows.Clear();
+				cbbFolderManageGroup.Text = "";
+			}
+
+			MoveDataManageGroup.DropDownItems.Clear();
+			foreach (var line in _listFolderManageGroup.Where(line => line != cbbFolderManageGroup.Text))
+			{
+				MoveDataManageGroup.DropDownItems.Add(line, null, ManageFolderHelper.OnClickTabGroup);
+			}
+			copyDữLiệuToolStripMenuItem.DropDownItems.Clear();
+			foreach (var line in _listFolderManageGroup.Where(line => line != cbbFolderManageGroup.Text))
+			{
+				copyDữLiệuToolStripMenuItem.DropDownItems.Add(line, null, ManageFolderHelper.OnClickCopyTabGroup);
+			}
 		}
 
 		private void chọnHoặcBỏChọnCácDòngBôiĐenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -476,6 +569,39 @@ namespace Tool_Facebook
 				}
 			}
 		}
+
+		private void btnDeleteFolderAcc_Click_1(object sender, EventArgs e)
+		{
+			var status = MessageBox.Show($"Bạn có chắc muốn xóa chủ đề và dữ liệu trong chủ đề {cbbFolderManageAcc.Text} này? ", "Cảnh báo!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+			if (status == DialogResult.Yes)
+			{
+				sqlController.excuteSQL($"DELETE FROM tbl_folders WHERE C_Folder='{cbbFolderManageAcc.Text}'");
+				sqlController.excuteSQL($"DELETE FROM tbl_accounts WHERE C_Folder='{cbbFolderManageAcc.Text}'");
+				sqlController.LoadDataIntoComboBoxManageAcc();
+				tblManageAcc.Rows.Clear();
+				cbbFolderManageAcc.Text = "";
+			}
+
+			MoveDataManageAcc.DropDownItems.Clear();
+			foreach (var line in _listFolderManageAcc.Where(line => line != cbbFolderManageAcc.Text))
+			{
+				MoveDataManageAcc.DropDownItems.Add(line, null, ManageFolderHelper.OnClickTabAcc);
+			}
+		}
+
+		private void btnAddFolderAcc_Click_2(object sender, EventArgs e)
+		{
+			FolderManageAccForm folderManageAccForm = new FolderManageAccForm("Account");
+			folderManageAccForm.ShowDialog();
+			//sqlController.createTable($"INSERT INTO tbl_topic(C_Topic) VALUES ()");
+
+			MoveDataManageAcc.DropDownItems.Clear();
+			foreach (var line in _listFolderManageAcc.Where(line => line != cbbFolderManageAcc.Text))
+			{
+				MoveDataManageAcc.DropDownItems.Add(line, null, ManageFolderHelper.OnClickTabAcc);
+			}
+		}
+
 		private void btnCloseAllChrome_Click_1(object sender, EventArgs e)
 		{
 			var Processs = new List<Process>();
@@ -645,15 +771,19 @@ namespace Tool_Facebook
 		{
 
 		}
-		private void btnStopAcc_Click_1(object sender, EventArgs e)
+		private void btnStopAcc_Click(object sender, EventArgs e)
 		{
 			stop = true;
 			finish = true;
 			btnStopAcc.Enabled = false;
 		}
-		private void btnStartAcc_Click_1(object sender, EventArgs e)
+		private void btnStartAcc_Click(object sender, EventArgs e)
 		{
-			btnSave_Click_1(sender, e);
+			if (!saved)
+			{
+				saved = true;
+			}
+			btnSave_Click(sender, e);
 			_getCookie = ckbGetCookie.Checked;
 			stop = false;
 			_success = 0;
@@ -1009,9 +1139,13 @@ namespace Tool_Facebook
 				sqlController.ReloadDataFolderManageGroup(cbbFolderManageGroup.Text);
 			}
 		}
-		private void btnStartGroup_Click(object sender, EventArgs e)
+		private void btnStartGroup_Click_1(object sender, EventArgs e)
 		{
-			btnSave_Click_1(sender, e);
+			if (!saved)
+			{
+				saved = true;
+			}
+			btnSave_Click(sender, e);
 			if (cbbFolderManageGroup.Text == "")
 			{
 				MessageBox.Show("Vui lòng chọn thư mục!");
@@ -1107,7 +1241,7 @@ namespace Tool_Facebook
 			btnStartGroup.Enabled = false;
 			btnStopGroup.Enabled = true;
 		}
-		private void btnStopGroup_Click(object sender, EventArgs e)
+		private void btnStopGroup_Click_1(object sender, EventArgs e)
 		{
 			stop = true;
 			finish = true;
@@ -1119,7 +1253,7 @@ namespace Tool_Facebook
 			finish = true;
 			btnStopGroup.Enabled = false;
 		}
-		private void btnSave_Click_1(object sender, EventArgs e)
+		private void btnSave_Click(object sender, EventArgs e)
 		{
 			Settings.Default.ckbCheckLiveUID = ckbCheckLiveUID.Checked;
 			Settings.Default.txtGroupPerAcc = txtGroupPerAcc.Text;
@@ -1147,11 +1281,20 @@ namespace Tool_Facebook
 			lblCountContent.Text = _contentList.Count.ToString();
 			_linkVideoList = new List<string>(File.ReadAllLines("input/ListLinkVideo.txt"));
 			lblCountLinkVideo.Text = _linkVideoList.Count.ToString();
-			MessageBox.Show("Đã Lưu");
+			if (!saved)
+			{
+				MessageBox.Show("Đã Lưu");
+				saved = true;
+			}
+			
 		}
 		private void btnStart_Click(object sender, EventArgs e)
 		{
-			btnSave_Click_1(sender, e);
+			if (!saved)
+			{
+				saved = true;
+			}
+			btnSave_Click(sender, e);
 			if (cbbFolderManageGroup.Text == "")
 			{
 				MessageBox.Show("Vui lòng chọn thư mục!");
@@ -1249,6 +1392,21 @@ namespace Tool_Facebook
 		}
 		#endregion
 		#region FolderManageGroup
+		private void btnAddFolderGroup_Click(object sender, EventArgs e)
+		{
+			FolderManageAccForm folderManageAccForm = new FolderManageAccForm("Group");
+			folderManageAccForm.ShowDialog();
+			MoveDataManageGroup.DropDownItems.Clear();
+			foreach (var line in _listFolderManageGroup.Where(line => line != cbbFolderManageGroup.Text))
+			{
+				MoveDataManageGroup.DropDownItems.Add(line, null, ManageFolderHelper.OnClickTabGroup);
+			}
+			copyDữLiệuToolStripMenuItem.DropDownItems.Clear();
+			foreach (var line in _listFolderManageGroup.Where(line => line != cbbFolderManageGroup.Text))
+			{
+				copyDữLiệuToolStripMenuItem.DropDownItems.Add(line, null, ManageFolderHelper.OnClickCopyTabGroup);
+			}
+		}
 		private void btnAddFolderGroup_Click_1(object sender, EventArgs e)
 		{
 			FolderManageAccForm folderManageAccForm = new FolderManageAccForm("Group");
